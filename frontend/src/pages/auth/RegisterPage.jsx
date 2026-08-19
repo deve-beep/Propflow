@@ -1,0 +1,74 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { Button } from '../../components/ui/Primitives';
+
+export default function RegisterPage() {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { registerCustomer } = useAuth();
+  const navigate = useNavigate();
+
+  const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await registerCustomer(form);
+      navigate('/', { replace: true });
+    } catch (err) {
+      setError(err.response?.data?.details?.[0]?.message || err.response?.data?.message || 'Registration failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-[80vh] flex items-center justify-center px-6 py-16 bg-ivory-100">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-10">
+          <Link to="/" className="font-serif text-2xl text-charcoal-900">
+            Prop<span className="text-terracotta-600">Flow</span>
+          </Link>
+          <h1 className="text-2xl font-serif mt-6 text-charcoal-900">Create your account</h1>
+          <p className="text-sm text-charcoal-500 mt-1">Find, save, and enquire about your next home</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4 bg-white p-8 shadow-card border border-stone-100">
+          {error && <p className="text-sm text-terracotta-700 bg-terracotta-400/10 px-4 py-3">{error}</p>}
+
+          <div>
+            <label className="text-xs text-charcoal-600 mb-1 block">Full name</label>
+            <input required value={form.name} onChange={update('name')} className="input-field" placeholder="Arjun Mehta" />
+          </div>
+          <div>
+            <label className="text-xs text-charcoal-600 mb-1 block">Email</label>
+            <input type="email" required value={form.email} onChange={update('email')} className="input-field" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label className="text-xs text-charcoal-600 mb-1 block">Phone</label>
+            <input value={form.phone} onChange={update('phone')} className="input-field" placeholder="+91-9876500000" />
+          </div>
+          <div>
+            <label className="text-xs text-charcoal-600 mb-1 block">Password</label>
+            <input type="password" required minLength={8} value={form.password} onChange={update('password')} className="input-field" placeholder="At least 8 characters" />
+          </div>
+
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? 'Creating account...' : 'Create Account'}
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-charcoal-500 mt-6">
+          Already have an account?{' '}
+          <Link to="/login" className="text-terracotta-600 hover:underline">
+            Sign in
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

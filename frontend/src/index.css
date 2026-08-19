@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ivory-50 text-charcoal-900 font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-charcoal-900 text-ivory-50 px-6 py-3 text-sm tracking-wide transition-all duration-300 hover:bg-terracotta-600;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border border-charcoal-900 text-charcoal-900 px-6 py-3 text-sm tracking-wide transition-all duration-300 hover:bg-charcoal-900 hover:text-ivory-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-sm tracking-wide text-charcoal-700 hover:text-terracotta-600 transition-colors duration-200;
+  }
+  .card-elevated {
+    @apply bg-white rounded-sm shadow-card border border-stone-100;
+  }
+  .input-field {
+    @apply w-full rounded-sm border border-stone-200 bg-white px-4 py-3 text-sm text-charcoal-900 placeholder:text-charcoal-400 focus:outline-none focus:border-terracotta-500 transition-colors duration-200;
+  }
+  .section-label {
+    @apply text-xs tracking-widest2 uppercase text-terracotta-600 font-medium;
+  }
+}
+
+/* Custom scrollbar - subtle, not the default browser blue-gray */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d3cabb; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #b3a693; }
